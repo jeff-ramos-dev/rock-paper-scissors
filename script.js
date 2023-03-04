@@ -33,15 +33,60 @@ function getPlayerChoice() {
 }
 
 // Write function to play 1 round
-function rockPaperScissors(computerSelection, playerSelection) {
+function playRound(computerSelection, playerSelection) {
 // check player choice and computer choice against the hashmap to determine result
     let player = rules[playerSelection]
-    console.log("player = ", player)
     result = player[computerSelection]
 // display result  
-    console.log(`Player: ${playerSelection}`)
-    console.log(`Computer: ${computerSelection}`)
-    console.log(result)
+    if (result === "win") {
+        console.log(`You won this round! ${playerSelection} beats ${computerSelection}`)
+    } else if (result === "lose") {
+        console.log(`You lost this round. ${computerSelection} beats ${playerSelection}`)
+    } else {
+        console.log(`This round was a draw! You both chose ${playerSelection}`)
+    }
+    return result
 }
 
-rockPaperScissors(getComputerChoice(), getPlayerChoice())
+function getRounds() {
+    rounds = Number(prompt("How many rounds?", _default=3))
+    while (typeof(rounds) !== "number") {
+        rounds = Number(prompt("Please enter a number.\nHow many rounds?"))
+    }
+    rounds = Math.round(rounds)
+    return rounds
+}
+// Write function to play game
+// Set parameter to determine how many rounds
+function game(rounds) {
+// Initialize scores
+    let computerScore = 0
+    let playerScore = 0
+    let result
+// Run loop for number of rounds
+    for (let i = 0; i < rounds; i++) {
+        result = playRound(getComputerChoice(), getPlayerChoice())
+        if (result === "win") {
+            playerScore += 1
+        } else if (result === "lose") {
+            computerScore += 1
+        } 
+        
+        console.log("Player: ", playerScore)
+        console.log("Computer: ", computerScore)
+    }
+    let endResult
+    if (playerScore > computerScore) {
+        endResult = "win"
+        console.log("YOU WIN!")
+    } else if (playerScore < computerScore) {
+        endResult = "lose"
+        console.log("YOU LOSE")
+    } else {
+        endResult = "draw"
+        console.log("IT'S A DRAW")
+    }
+    return endResult
+}
+
+game(getRounds())
