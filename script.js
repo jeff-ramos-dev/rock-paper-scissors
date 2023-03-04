@@ -26,7 +26,7 @@ function getPlayerChoice() {
     while (!choices.includes(userInput)) {
 // If not, display an error message, and reprompt the user
         console.log("Invalid choice.")
-        userInput = prompt("Rock, Paper, or Scissors?").toLowerCase()
+        userInput = prompt("Invalid Choice. Try again.\nRock, Paper, or Scissors?").toLowerCase()
     } 
     userChoice = userInput 
     return userChoice
