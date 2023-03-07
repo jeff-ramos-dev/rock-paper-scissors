@@ -101,9 +101,9 @@ function playRound(computerSelection, playerSelection) {
         results.textContent = `This round was a DRAW! You both chose ${playerSelection}`
     }
     if (scores["Computer"] >= 5) {
-        results.textContent = 'COMPUTER WINS'
+        results.textContent = 'COMPUTER WINS!'
     } else if (scores["Player"] >= 5) {
-        results.textContent = 'PLAYER WINS'
+        results.textContent = 'PLAYER WINS!'
     }
     return result
 }

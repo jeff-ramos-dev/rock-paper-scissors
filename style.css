@@ -34,12 +34,13 @@ body {
 }
 
 .container {
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(2px) brightness(105%);
+    border: 2px solid darkslategray;
+    padding: 0.4rem 4rem;
+    background-color: rgba(230, 230, 230, 0.5)
 }
 
 button {
