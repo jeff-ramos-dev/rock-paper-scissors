@@ -7,6 +7,9 @@ const scores = {"Player": 0, "Computer": 0}
 
 const body = document.querySelector('body')
 
+const buttonContainer = document.createElement('div')
+buttonContainer.classList.add('button-container')
+
 const rockButton = document.createElement('button')
 rockButton.classList.add('rock')
 rockButton.textContent = 'ROCK'
@@ -25,20 +28,26 @@ div.classList.add('container')
 const results = document.createElement('p')
 results.classList.add('results')
 
-const scoreDisplay = document.createElement('p')
-scoreDisplay.classList.add('scores')
-scoreDisplay.textContent = `Computer: ${scores["Computer"]}    Player: ${scores["Player"]}`
+const computerScoreDisplay = document.createElement('p')
+computerScoreDisplay.classList.add('scores')
+computerScoreDisplay.textContent = `Computer: ${scores["Computer"]}`
+
+const playerScoreDisplay = document.createElement('p')
+playerScoreDisplay.classList.add('scores')
+playerScoreDisplay.textContent = `Player: ${scores["Player"]}`
 
 const resetButton = document.createElement('button')
 resetButton.classList.add('reset')
 resetButton.textContent = 'RESET'
 
-body.appendChild(rockButton)
-body.appendChild(paperButton)
-body.appendChild(scissorsButton)
+body.appendChild(buttonContainer)
+buttonContainer.appendChild(rockButton)
+buttonContainer.appendChild(paperButton)
+buttonContainer.appendChild(scissorsButton)
 body.appendChild(div)
 div.appendChild(results)
-div.appendChild(scoreDisplay)
+div.appendChild(computerScoreDisplay)
+div.appendChild(playerScoreDisplay)
 body.appendChild(resetButton)
 
 
@@ -63,7 +72,8 @@ resetButton.addEventListener('click', resetGame)
 function resetGame() {
     scores["Computer"] = 0
     scores["Player"] = 0
-    scoreDisplay.textContent = `Computer: ${scores["Computer"]}    Player: ${scores["Player"]}`
+    computerScoreDisplay.textContent = `Computer: ${scores["Computer"]}`
+    playerScoreDisplay.textContent = `Player: ${scores["Player"]}`
     results.textContent = ""
 }
 
@@ -78,15 +88,17 @@ function playRound(computerSelection, playerSelection) {
     let player = rules[playerSelection]
     let result = player[computerSelection]
     if (result === "win") {
-        results.textContent = `You won this round! ${playerSelection} beats ${computerSelection}`
+        results.textContent = `You WON this round! ${playerSelection} beats ${computerSelection}`
         scores["Player"] += 1
-        scoreDisplay.textContent = `Computer: ${scores["Computer"]}    Player: ${scores["Player"]}`
+        computerScoreDisplay.textContent = `Computer: ${scores["Computer"]}`
+        playerScoreDisplay.textContent = `Player: ${scores["Player"]}`
     } else if (result === "lose") {
-        results.textContent = `You lost this round. ${computerSelection} beats ${playerSelection}`
+        results.textContent = `You LOST this round. ${computerSelection} beats ${playerSelection}`
         scores["Computer"] += 1
-        scoreDisplay.textContent = `Computer: ${scores["Computer"]}    Player: ${scores["Player"]}`
+        computerScoreDisplay.textContent = `Computer: ${scores["Computer"]}`
+        playerScoreDisplay.textContent = `Player: ${scores["Player"]}`
     } else {
-        results.textContent = `This round was a draw! You both chose ${playerSelection}`
+        results.textContent = `This round was a DRAW! You both chose ${playerSelection}`
     }
     if (scores["Computer"] >= 5) {
         results.textContent = 'COMPUTER WINS'
