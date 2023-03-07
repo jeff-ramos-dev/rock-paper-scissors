@@ -1,92 +1,97 @@
-// Set up rules in a hashmap
+// hashmaps of outcomes for each player choice
 const Rock = {"rock": "draw", "paper": "lose", "scissors": "win"}
 const Paper = {"rock": "win", "paper": "draw", "scissors": "lose"}
 const Scissors = {"rock": "lose", "paper": "win", "scissors": "draw"}
 const rules = {"rock": Rock, "paper": Paper, "scissors": Scissors}
+const scores = {"Player": 0, "Computer": 0}
 
-// Write function to get Computer choice
+const body = document.querySelector('body')
+
+const rockButton = document.createElement('button')
+rockButton.classList.add('rock')
+rockButton.textContent = 'ROCK'
+
+const paperButton = document.createElement('button')
+paperButton.classList.add('paper')
+paperButton.textContent = 'PAPER'
+
+const scissorsButton = document.createElement('button')
+scissorsButton.classList.add('scissors')
+scissorsButton.textContent = 'SCISSORS'
+
+const div = document.createElement('div')
+div.classList.add('container')
+
+const results = document.createElement('p')
+results.classList.add('results')
+
+const scoreDisplay = document.createElement('p')
+scoreDisplay.classList.add('scores')
+scoreDisplay.textContent = `Computer: ${scores["Computer"]}    Player: ${scores["Player"]}`
+
+const resetButton = document.createElement('button')
+resetButton.classList.add('reset')
+resetButton.textContent = 'RESET'
+
+body.appendChild(rockButton)
+body.appendChild(paperButton)
+body.appendChild(scissorsButton)
+body.appendChild(div)
+div.appendChild(results)
+div.appendChild(scoreDisplay)
+body.appendChild(resetButton)
+
+
+rockButton.addEventListener('click', () => {
+    if (scores["Player"] < 5 && scores["Computer"] < 5) {
+        playRound(getComputerChoice(), 'rock')
+    }
+})
+paperButton.addEventListener('click', () => {
+    if (scores["Player"] < 5 && scores["Computer"] < 5) {
+        playRound(getComputerChoice(), 'paper')
+    }
+})
+scissorsButton.addEventListener('click', () => {
+    if (scores["Player"] < 5 && scores["Computer"] < 5) {
+        playRound(getComputerChoice(), 'scissors')
+    }
+})
+
+resetButton.addEventListener('click', resetGame)
+
+function resetGame() {
+    scores["Computer"] = 0
+    scores["Player"] = 0
+    scoreDisplay.textContent = `Computer: ${scores["Computer"]}    Player: ${scores["Player"]}`
+    results.textContent = ""
+}
+
 function getComputerChoice() {
-// create array of choices
     let choices = Object.keys(rules)
-// choose random number between 0 and 2
     let randomNum = Math.floor(Math.random() * 3)
-// use number to select from choice array
     let compChoice = choices[randomNum]
-// return computer choice 
     return compChoice
 }
 
-// Write function to get Player choice
-function getPlayerChoice() {
-// create array of choices
-    let choices = Object.keys(rules)
-// Prompt user to make selection
-    let userInput = prompt("Rock, Paper, or Scissors?").toLowerCase()
-// Validate that it matches either "rock", "paper", or "scissors"
-    while (!choices.includes(userInput)) {
-// If not, display an error message, and reprompt the user
-        console.log("Invalid choice.")
-        userInput = prompt("Invalid Choice. Try again.\nRock, Paper, or Scissors?").toLowerCase()
-    } 
-    userChoice = userInput 
-    return userChoice
-}
-
-// Write function to play 1 round
 function playRound(computerSelection, playerSelection) {
-// check player choice and computer choice against the hashmap to determine result
     let player = rules[playerSelection]
-    result = player[computerSelection]
-// display result  
+    let result = player[computerSelection]
     if (result === "win") {
-        console.log(`You won this round! ${playerSelection} beats ${computerSelection}`)
+        results.textContent = `You won this round! ${playerSelection} beats ${computerSelection}`
+        scores["Player"] += 1
+        scoreDisplay.textContent = `Computer: ${scores["Computer"]}    Player: ${scores["Player"]}`
     } else if (result === "lose") {
-        console.log(`You lost this round. ${computerSelection} beats ${playerSelection}`)
+        results.textContent = `You lost this round. ${computerSelection} beats ${playerSelection}`
+        scores["Computer"] += 1
+        scoreDisplay.textContent = `Computer: ${scores["Computer"]}    Player: ${scores["Player"]}`
     } else {
-        console.log(`This round was a draw! You both chose ${playerSelection}`)
+        results.textContent = `This round was a draw! You both chose ${playerSelection}`
+    }
+    if (scores["Computer"] >= 5) {
+        results.textContent = 'COMPUTER WINS'
+    } else if (scores["Player"] >= 5) {
+        results.textContent = 'PLAYER WINS'
     }
     return result
 }
-
-function getRounds() {
-    rounds = Number(prompt("How many rounds?", _default=3))
-    while (typeof(rounds) !== "number") {
-        rounds = Number(prompt("Please enter a number.\nHow many rounds?"))
-    }
-    rounds = Math.round(rounds)
-    return rounds
-}
-// Write function to play game
-// Set parameter to determine how many rounds
-function game(rounds) {
-// Initialize scores
-    let computerScore = 0
-    let playerScore = 0
-    let result
-// Run loop for number of rounds
-    for (let i = 0; i < rounds; i++) {
-        result = playRound(getComputerChoice(), getPlayerChoice())
-        if (result === "win") {
-            playerScore += 1
-        } else if (result === "lose") {
-            computerScore += 1
-        } 
-        
-        console.log("Player: ", playerScore)
-        console.log("Computer: ", computerScore)
-    }
-    let endResult
-    if (playerScore > computerScore) {
-        endResult = "win"
-        console.log("YOU WIN!")
-    } else if (playerScore < computerScore) {
-        endResult = "lose"
-        console.log("YOU LOSE")
-    } else {
-        endResult = "draw"
-        console.log("IT'S A DRAW")
-    }
-    return endResult
-}
-
-game(getRounds())
