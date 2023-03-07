@@ -1,16 +1,3 @@
-/*
-Selectors:
-body
-.rock
-.paper
-.scissors
-.container
-.results
-.scores
-.reset
-
-*/
-
 body {
     display: flex;
     flex-direction: column;
